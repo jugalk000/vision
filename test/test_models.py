@@ -231,6 +231,7 @@ autocast_flaky_numerics = (
     "maskrcnn_resnet50_fpn",
     "maskrcnn_resnet50_fpn_v2",
     "keypointrcnn_resnet50_fpn",
+    "fasterrcnn_resnet50_fpn",  # See: https://github.com/pytorch/vision/issues/6655
 )
 
 # The tests for the following quantized models are flaky possibly due to inconsistent
@@ -242,7 +243,7 @@ quantized_flaky_models = ("inception_v3", "resnet50")
 # The following contains configuration parameters for all models which are used by
 # the _test_*_model methods.
 _model_params = {
-    "inception_v3": {"input_shape": (1, 3, 299, 299)},
+    "inception_v3": {"input_shape": (1, 3, 299, 299), "init_weights": True},
     "retinanet_resnet50_fpn": {
         "num_classes": 20,
         "score_thresh": 0.01,
@@ -316,6 +317,7 @@ _model_params = {
     "s3d": {
         "input_shape": (1, 3, 16, 224, 224),
     },
+    "googlenet": {"init_weights": True},
 }
 # speeding up slow models:
 slow_models = [
@@ -348,8 +350,8 @@ for m in slow_models:
 skipped_big_models = {
     "vit_h_14": {("Windows", "cpu"), ("Windows", "cuda")},
     "regnet_y_128gf": {("Windows", "cpu"), ("Windows", "cuda")},
-    "mvit_v1_b": {("Windows", "cuda")},
-    "mvit_v2_s": {("Windows", "cuda")},
+    "mvit_v1_b": {("Windows", "cuda"), ("Linux", "cuda")},
+    "mvit_v2_s": {("Windows", "cuda"), ("Linux", "cuda")},
 }
 
 
